@@ -22,8 +22,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
-  let user = this as UserDocument;
+userSchema.pre<UserDocument>("save", async function (next) {
+  let user = this;
 
   if (!user.isModified("password")) {
     next();
@@ -34,10 +34,10 @@ userSchema.pre("save", async function (next) {
   return next();
 });
 
-userSchema.methods.comparePassword = async function (
+userSchema.methods.comparePassword = async function <UserDocument>(
   candidatePassword: string
 ): Promise<boolean> {
-  const user = this as UserDocument;
+  const user = this;
 
   return bcrypt.compare(candidatePassword, user.password).catch((err) => false);
 };
