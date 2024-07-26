@@ -7,6 +7,7 @@ const app = express();
 
 const port = config.get<number>("port");
 
+app.use(express.json());
 app.listen(port, async () => {
   logger.info(`App runing on http://localhost:${port}`);
   await connect();
